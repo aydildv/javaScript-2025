@@ -64,24 +64,35 @@
         console.log("---------------------")
         console.log("PART 1...")
 
-
-
-
+        var celsius = -270;
+        var fahrenheit = (9 / 5) * celsius + 32;
+        console.log("Celsius:", celsius);
+        console.log("Fahrenheit:", fahrenheit);
 
         console.log("---------------------")
         console.log("PART 2...")
 
+        function calculateTemp(tempC) {
+            return (9 / 5) * tempC + 32;
+        }
 
-
-
-
+        var inputCelsius = -270;
+        var outputFahrenheit = calculateTemp(inputCelsius);
+        console.log("Celsius:", inputCelsius);
+        console.log("Fahrenheit:", outputFahrenheit);
 
         console.log("---------------------")
         console.log("PART 3...")
 
+        var calculateButton = document.getElementById("calculate");
+        var inputElement = document.getElementById("input-temp-c");
+        var displayElement = document.getElementById("display-temp-f");
 
-
-
+        calculateButton.addEventListener("click", function() {
+            var userInputC = parseFloat(inputElement.value);
+            var convertedF = calculateTemp(userInputC);
+            displayElement.textContent = convertedF.toFixed(2);
+        });
 
     </script>
 </body>
