@@ -63,19 +63,60 @@
 
         console.log("---------------------")
         console.log("PART 1...")
+        
+        console.log("Download Date:", gradebook.downloadDate);
+        
+        console.log("Number of students:", gradebook.students.length);
+        
+        for (var i = 0; i < gradebook.students.length; i++) {
+            var student = gradebook.students[i];
+            console.log(student.name + ": " + student.finalGrade);
+        }
 
+        var grades = gradebook.students.map(function(student) {
+            return student.finalGrade;
+        });
+        console.log("Grades array:", grades);
 
+        var average = d3.mean(grades);
+        console.log("Average grade:", average.toFixed(2));
 
-
+        var median = d3.median(grades);
+        console.log("Median grade:", median.toFixed(2));
 
 
         console.log("---------------------")
         console.log("PART 2...")
+        
+        var table = document.getElementById("display-gradebook");
+        
+        var headerRow = document.createElement("tr");
+        var headers = ["Student ID", "Student Name", "Final Grade"];
+        for (var j = 0; j < headers.length; j++) {
+            var th = document.createElement("th");
+            th.textContent = headers[j];
+            headerRow.appendChild(th);
+        }
+        table.appendChild(headerRow);
+        
+        for (var k = 0; k < gradebook.students.length; k++) {
+            var row = document.createElement("tr");
+            var s = gradebook.students[k];
 
+            var tdId = document.createElement("td");
+            tdId.textContent = s.studentId;
+            row.appendChild(tdId);
 
+            var tdName = document.createElement("td");
+            tdName.textContent = s.name;
+            row.appendChild(tdName);
 
+            var tdGrade = document.createElement("td");
+            tdGrade.textContent = s.finalGrade;
+            row.appendChild(tdGrade);
 
-
+            table.appendChild(row);
+        }
 
     </script>
 

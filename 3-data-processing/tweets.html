@@ -102,16 +102,66 @@
         console.log("---------------------")
         console.log("PART 1...")
 
+        // A
+        console.log("A:", tweets[0].user.screen_name);
 
+        // B
+        var mentions = tweets.filter(function(tweet) {
+            return tweet.full_text.includes("@sandwoah");
+        });
 
+        console.log("B:");
+        for (var i = 0; i < mentions.length; i++) {
+            console.log(mentions[i].user.screen_name);
+        }
 
+        // C
+        var maxLikesTweet = mentions.reduce(function(prev, current) {
+            return (current.likes_count > prev.likes_count) ? current : prev;
+        });
+        console.log("C:", maxLikesTweet.user.screen_name);
 
 
         console.log("---------------------")
         console.log("PART 2...")
 
+        // A
+        var sortedTweets = tweets.slice().sort(function(a, b) {
+            return b.likes_count - a.likes_count;
+        });
 
+        // B
+        var table = document.getElementById("social-feed");
+        
+        var headerRow = document.createElement("tr");
+        var headers = ["Tweet Id", "Tweet Text", "User Screen Name", "User Followers", "Tweet Likes"];
+        for (var h = 0; h < headers.length; h++) {
+            var th = document.createElement("th");
+            th.innerText = headers[h];
+            headerRow.appendChild(th);
+        }
+        table.appendChild(headerRow);
+        
+        for (var j = 0; j < sortedTweets.length; j++) {
+            var row = document.createElement("tr");
 
+            var tweet = sortedTweets[j];
+            var values = [
+                tweet.id,
+                tweet.full_text,
+                tweet.user.screen_name,
+                tweet.user.followers,
+                tweet.likes_count
+            ];
+
+            for (var k = 0; k < values.length; k++) {
+                var td = document.createElement("td");
+                td.innerText = values[k];
+                row.appendChild(td);
+            }
+
+            table.appendChild(row);
+        }
 
     </script>
 
