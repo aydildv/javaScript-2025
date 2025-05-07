@@ -123,17 +123,43 @@
         // TASK A: POPULATE DROP-DOWN MENU
         //
 
+        var selector = document.getElementById("station-selector");
 
-
-
-
+trainStations.forEach(function(station) {
+  var option = document.createElement("option");
+  option.value = station.abbrev;
+  option.textContent = station.name;
+  selector.appendChild(option);
+});
 
         //
         // TASK B: DISPLAY THE SELECTED STATION ON THE MAP
         //
 
+        function updateMap() {
+        var selectedAbbrev = selector.value;
+        var selectedStation = trainStations.find(function(station) {
+          return station.abbrev === selectedAbbrev;
+        });
 
+        if (selectedStation) {
+          markersLayer.clearLayers();
 
+          var popupContent = "<b>" + selectedStation.name + "</b><br>";
+          popupContent += "<a href='" + selectedStation.url + "' target='_blank'>More Info</a>";
+
+          L.marker([selectedStation.lat, selectedStation.lon])
+            .addTo(markersLayer)
+            .bindPopup(popupContent)
+            .openPopup();
+
+          map.setView([selectedStation.lat, selectedStation.lon], zoomLevel);
+        }
+      }
+
+      updateMap();
+
+      selector.addEventListener("change", updateMap);
 
         // UPDATE MAP WHEN THE PAGE LOADS:
         // TODO
