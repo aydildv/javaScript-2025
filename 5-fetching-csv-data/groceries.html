@@ -83,22 +83,65 @@
             console.log("---------------------")
             console.log("PART 1...")
 
+            // A
+            console.log("Number of products:", products.length)
 
+            // B
+            for (var i = 0; i < products.length; i++) {
+                var product = products[i]
+                var name = product.name
+                var price = formatUSD(parseFloat(product.price))
+                console.log(`- ${name} (${price})`)
+            }
 
+            // C
+            var departments = []
+            for (var i = 0; i < products.length; i++) {
+                var dept = products[i].department
+                if (departments.indexOf(dept) === -1) {
+                    departments.push(dept)
+                }
+            }
 
+            console.log("Number of unique departments:", departments.length)
+
+            // D
+            for (var i = 0; i < departments.length; i++) {
+                console.log(departments[i].toUpperCase())
+            }
+
+            // E
+            var beverages = products.filter(function(product) {
+                return product.department === "beverages"
+            })
+
+            console.log("Number of beverage products:", beverages.length)
+
+            // F
+            var totalPrice = 0
+            for (var i = 0; i < beverages.length; i++) {
+                totalPrice += parseFloat(beverages[i].price)
+            }
+
+            var avgPrice = totalPrice / beverages.length
+            console.log("Average price of beverages:", formatUSD(avgPrice))
 
 
             console.log("---------------------")
             console.log("PART 2...")
 
+            // A
+            products.sort(function(a, b) {
+                return a.name.localeCompare(b.name)
+            })
 
-
-
-
-
-
-
-
+            // B
+            var ulElement = document.getElementById("display-groceries")
+            for (var i = 0; i < products.length; i++) {
+                var li = document.createElement("li")
+                li.innerText = `${products[i].name} (${formatUSD(parseFloat(products[i].price))})`
+                ulElement.appendChild(li)
+            }
 
             }).catch(function(error) {
                 console.error("ERROR:", error)
