@@ -75,8 +75,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/d3-array@3"></script>
     <script type="text/javascript">
-
-        const requestUrl = "https://raw.githubusercontent.com/prof-rossetti/internet-technologies/refs/heads/main/data/hp-movies.json"
+        var requestUrl = "https://raw.githubusercontent.com/prof-rossetti/internet-technologies/main/data/hp-movies.json";
 
     
         fetch(requestUrl).then(response => response.json())
@@ -85,61 +84,70 @@
                 
                 console.log("---------------------")
                 console.log("PART 1...")
+                console.log(data.length)
 
-                //A
-                let allMovies = [];
-                allMovies = data;
+                data.forEach(function(movie) {
+                    //console.log("---")
+                    //console.log(movie)
+                    console.log(movie.Title, movie.Year)
+                })
 
-                // B
-                console.log("Number of movies:", data.length);
+                var sortedMovies = data.sort(function(a, b) {
+                    return d3.descending(a.Rating, b.Rating)
+                })
 
-                // C
-                data.forEach(movie => {
-                    console.log(`Title: ${movie.title}, Year: ${movie.year}`);
-                });
-
-                // D
-                const topRated = data.reduce((prev, curr) => (curr.imdb_rating > prev.imdb_rating ? curr : prev));
-                console.log(`Highest Rated Movie: ${topRated.title}, Rating: ${topRated.imdb_rating}`);
-
-
+                var highestRated = sortedMovies[0]
+                console.log("HIGHEST RATED:", highestRated.Title, highestRated.Rating)
+                
+                
                 console.log("---------------------")
                 console.log("PART 2...")
 
-                const select = document.getElementById("select-movie");
+                
+var allMovies = data;
+var select = document.getElementById("select-movie");
 
-                // A
-                data.forEach(movie => {
-                    const option = document.createElement("option");
-                    option.value = movie.id;
-                    option.textContent = movie.title;
-                    select.appendChild(option);
-                });
+// A - Populate dropdown
+allMovies.forEach(function(movie) {
+    var option = document.createElement("option");
+    option.value = movie.id;
+    option.textContent = movie.Title;
+    select.appendChild(option);
+});
 
-                // B
-                function updateMovieInfo() {
-                    const selectedId = select.value;
-                    const selectedMovie = allMovies.find(movie => movie.id === selectedId);
+// B - Update displayed movie info
+function updateMovieInfo() {
+    var selectedId = select.value;
+    var selectedMovie = allMovies.find(function(movie) {
+        return movie.id === selectedId;
+    });
 
-                    if (selectedMovie) {
-                        document.getElementById("display-title").textContent = selectedMovie.title;
-                        document.getElementById("display-year").textContent = selectedMovie.year;
-                        document.getElementById("display-rating").textContent = selectedMovie.imdb_rating;
+    if (selectedMovie) {
+        document.getElementById("display-title").textContent = selectedMovie.Title;
+        document.getElementById("display-year").textContent = selectedMovie.Year;
+        document.getElementById("display-rating").textContent = selectedMovie.Rating;
 
-                        const imageContainer = document.getElementById("image-container");
-                        imageContainer.innerHTML = ""; 
-                        const img = document.createElement("img");
-                        img.src = selectedMovie.poster_url;
-                        img.alt = selectedMovie.title;
-                        img.style.width = "200px";
-                        imageContainer.appendChild(img);
-                    }
-                }
+        var imageContainer = document.getElementById("image-container");
+        imageContainer.innerHTML = "";
+        var img = document.createElement("img");
+        img.src = selectedMovie.Poster_URL;
+        img.alt = selectedMovie.Title;
+        img.style.width = "200px";
+        imageContainer.appendChild(img);
+    }
+}
 
-                // C
-                select.addEventListener("change", updateMovieInfo);
-            })
-            .catch(err => console.log(err));
+// C - Add event listener
+select.addEventListener("change", updateMovieInfo);
+
+// Optional: Display the first movie by default if available
+if (allMovies.length > 0) {
+    select.value = allMovies[0].id;
+    updateMovieInfo();
+}
+        }).catch(function(err) {
+            console.log("Error fetching data:", err);
+        });
 
     </script>
 </body>
