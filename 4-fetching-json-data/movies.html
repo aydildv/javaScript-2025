@@ -117,11 +117,12 @@ allMovies.forEach(function(movie) {
 
 // B - Update displayed movie info
 function updateMovieInfo() {
-    var selectedId = select.value;
+    var selectedId = this.value;
     var selectedMovie = allMovies.find(function(movie) {
         return movie.id === selectedId;
     });
 
+        console.log(this);
     if (selectedMovie) {
         document.getElementById("display-title").textContent = selectedMovie.Title;
         document.getElementById("display-year").textContent = selectedMovie.Year;
